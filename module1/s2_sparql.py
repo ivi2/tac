@@ -1,7 +1,6 @@
-"""Query Wikidata for Belgian politicians"""
+"""Query Wikidata for protected heritage building in Brussels"""
 
 import argparse
-from datetime import datetime as dt
 
 from SPARQLWrapper import SPARQLWrapper, JSON
 
@@ -15,12 +14,12 @@ def get_rows():
     sparql = SPARQLWrapper(endpoint)
 
     statement = """
-    SELECT DISTINCT ?person ?personLabel WHERE {
-        ?person wdt:P27 wd:Q31 .
-        ?person wdt:P106 wd:Q30185 .
-        SERVICE wikibase:label { bd:serviceParam wikibase:language "en" . }
+    SELECT DISTINCT ?item ?itemLabel ?itemId  where {
+        ?item wdt:P3600 ?itemId. 
+        ?item wdt:P31 wd:Q3947 .
+
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
     }
-    ORDER BY ?personLabel
     """
 
     sparql.setQuery(statement)
@@ -28,29 +27,18 @@ def get_rows():
     results = sparql.query().convert()
 
     rows = results['results']['bindings']
-    print(f"\n{len(rows)} Belgian politicians found\n")
+    print(f"\n{len(rows)} Brussels protected buildings found\n")
     return rows
 
 def show(rows, name_filter=None, n=10):
-    """Display n politicians (default=10)"""
-    date_format = "%Y-%m-%dT%H:%M:%SZ"
+    """Display n buildings (default=10)"""
+    # date_format = "%Y-%m-%dT%H:%M:%SZ"
     if name_filter:
-        rows = [row for row in rows if name_filter in row['personLabel']['value'].lower()]
+        rows = [row for row in rows if name_filter in row['itemLabel']['value'].lower()]
     print(f"Displaying the first {n}:\n")
     for row in rows[:n]:
-        try:
-            birth_date = dt.strptime(row['dateBirth']['value'], date_format)
-            birth_year = birth_date.year
-        except ValueError:
-            birth_year = "????"
-        try:
-            death_date = dt.strptime(row['dateDeath']['value'], date_format)
-            death_year = death_date.year
-        except ValueError: # unknown death date
-            death_year = "????"
-        except KeyError: # still alive
-            death_year = ""
-        print(f"{row['personLabel']['value']} ({birth_year}-{death_year})")
+        building_id = row['itemId']['value']
+        print(f"{row['itemLabel']['value']} ({building_id})")
 
 if __name__ == "__main__":
     args = parser.parse_args()
