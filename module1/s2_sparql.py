@@ -1,4 +1,4 @@
-"""Query Wikidata for protected heritage building in Brussels"""
+"""Query Wikidata for protected heritage buildings in Brussels"""
 
 import argparse
 
