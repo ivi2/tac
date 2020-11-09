@@ -5,12 +5,13 @@ import yake
 
 ignored = set(["conseil communal", "conseil général"])
 
+
 kw_extractor = yake.KeywordExtractor(lan="fr", top=20)
-data_path = "data/txt/"
+data_path = "data/txt1/"
 files = os.listdir(data_path)
 for f in sorted(files):
-    if f.startswith("Bxl_"):
-        text = open(data_path + f).read()
+    if f.startswith("Bxl_1895"):
+        text = open(data_path + f, encoding='utf-8').read()
         keywords = kw_extractor.extract_keywords(text)
         kept = []
         for score, kw in keywords:
