@@ -19,7 +19,7 @@ def process_text(text, stem=True):
  
 def cluster_texts(files, clusters):
     """ Transform texts to Tf-Idf coordinates and cluster texts using K-Means """
-    texts = [open(data_path + f).read() for f in files]
+    texts = [open(data_path + f, encoding='utf8').read() for f in files]
     vectorizer = TfidfVectorizer(tokenizer=process_text,
                                  stop_words=stopwords.words('french'),
                                  max_df=0.5,
@@ -37,7 +37,7 @@ def cluster_texts(files, clusters):
     return clustering
  
 if __name__ == "__main__":
-    data_path = "data/txt/"
+    data_path = "../data/txt/"
     decade = sys.argv[1] # e.g. 1870 or 1930
     files = [f for f in sorted(os.listdir(data_path)) if f"_{decade[:-1]}" in f]
     print(f"{len(files)} documents to cluster for decade {decade}")

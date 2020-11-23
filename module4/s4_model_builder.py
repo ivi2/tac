@@ -22,12 +22,12 @@ class MySentences(object):
         for line in open(self.filename, encoding='utf-8', errors="backslashreplace"):
             yield [w.lower() for w in wordpunct_tokenize(line)]
 
-infile = f"data/sents.txt"
+infile = f"../data/sents.txt"
 sentences = MySentences(infile)
 phrases = Phrases(sentences)
 bigram = Phraser(phrases)
 trigram = Phrases(bigram[sentences])
 corpus = list(trigram[bigram[sentences]])
-model = Word2Vec(corpus, size=32, window=5, min_count=5, workers=4, iter=5)
-outfile = f"data/bulletins.model"
+model = Word2Vec(corpus, size=64, window=5, min_count=3, workers=5, iter=4)
+outfile = f"../data/bulletins.model"
 model.save(outfile)
