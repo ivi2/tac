@@ -20,9 +20,8 @@ def test():
         else:
             print(f"'{doc.text}' contains no entities")
 
-
 def search():
-    text = open("tmp/1895.txt").read()[:1000000]
+    text = open("data/all.txt").read()[:1000000]
     doc = nlp(text)
     people = defaultdict(int)
     for ent in doc.ents:

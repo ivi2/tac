@@ -12,10 +12,10 @@ sw += ["les", "plus", "cette", "fait", "faire", "être", "deux", "comme", "dont"
 sw = set(sw)
 print(f"{len(sw)} stopwords used: {sorted(sw)}")
 
-path = "data/all.txt"
+path = "../data/all.txt"
 limit = 10**8
 
-with open(path) as f:
+with open(path,  encoding='latin-1') as f:
     text = f.read()[:limit]
     words = nltk.wordpunct_tokenize(text)
     print(f"{len(words)} words found")

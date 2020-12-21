@@ -6,7 +6,7 @@ from pprint import pprint
 
 model = Word2Vec.load("../data/bulletins.model")
 
-word1 = "maladie"
+word1 = "photographie"
 pprint(model.wv[word1])
 
 #%%
@@ -20,10 +20,10 @@ sim1 = model.wv.similarity(word1, word2)
 print(f"{word1} is {100*sim1:.1f}% similar to {word2}\n")
 
 #%%
-pprint(model.wv.most_similar("orphelines", topn=3))
+pprint(model.wv.most_similar("photographie", topn=3))
 
 #%%
 pprint(model.wv.most_similar("villes"))
 
 #%%
-pprint(model.wv.most_similar(positive=['nivelles', 'france'], negative=['belgique']))
+pprint(model.wv.most_similar(positive=['photographie', 'france'], negative=['belgique']))
